@@ -198,29 +198,33 @@
                                                          path="typeCode"/>
                                     </div>
                                 </div>
-<%--                                <div class="form-group">--%>
-<%--                                    <div class="col-xs-3">Ảnh đại diện</div>--%>
-<%--                                    <div class="col-xs-9">--%>
-<%--                                        <form:input type="file" path="avatar"/>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
+                                    <%--                                <div class="form-group">--%>
+                                    <%--                                    <div class="col-xs-3">Ảnh đại diện</div>--%>
+                                    <%--                                    <div class="col-xs-9">--%>
+                                    <%--                                        <form:input type="file" path="avatar"/>--%>
+                                    <%--                                    </div>--%>
+                                    <%--                                </div>--%>
                                 <div class="form-group">
                                     <div class="col-xs-3"></div>
                                     <div class="col-xs-6">
-                                        <c:if test="${not empty buildingEdit.id}">
-                                            <button class="btn btn-info"
-                                                    id="btnAddOrUpdateBuilding">
-                                                Cập nhật tòa
-                                                nhà
-                                            </button>
-                                        </c:if>
-                                        <c:if test="${empty buildingEdit.id}">
-                                            <button class="btn btn-info"
-                                                    id="btnAddOrUpdateBuilding">
-                                                Thêm tòa
-                                                nhà
-                                            </button>
-                                        </c:if>
+                                        <security:authorize access="hasRole('MANAGER')">
+                                            <c:if test="${not empty buildingEdit.id}">
+                                                <button class="btn btn-info"
+                                                        id="btnAddOrUpdateBuilding">
+                                                    Cập nhật tòa
+                                                    nhà
+                                                </button>
+                                            </c:if>
+                                            <c:if test="${empty buildingEdit.id}">
+
+                                                <button class="btn btn-info"
+                                                        id="btnAddOrUpdateBuilding">
+                                                    Thêm tòa
+                                                    nhà
+                                                </button>
+                                            </c:if>
+
+                                        </security:authorize>
                                         <button class="btn btn-info" id="cancleBtn">Hủy thao tác
                                         </button>
                                     </div>
@@ -236,6 +240,10 @@
     </div>
 </div><!-- /.main-content -->
 <script src="assets/js/jquery.2.1.1.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      rel="stylesheet">
 
 <script>
   $('#btnAddOrUpdateBuilding').click(function (e) {
@@ -263,17 +271,19 @@
   function addOrUpdateBuilding(data) {
     $.ajax({
       type: "POST",
-      url: "${buildingAPI}",
+      url: `${buildingAPI}`,
       data: JSON.stringify(data),
       contentType: "application/json",
-      dataType: "json",
-      success: function (response) {
-        window.location.href = "<c:url value="/admin/building-list"/>";
+      success: function (data, textStatus, xhr) {
+        toastr.success('Cập nhật building thành công', 'Thành công');
+        setTimeout(() => {
+          window.location.href = "/admin/building-list";
+        }, 2000);
       },
-      error: function (response) {
-        window.location.href = "<c:url value="/admin/building-add?error=error"/>";
+      error: function (xhr) {
+        toastr.error('Có lỗi xảy ra khi cập nhật building', 'Thất bại');
       }
-    })
+    });
   }
 
   $('#cancleBtn').click(function (e) {

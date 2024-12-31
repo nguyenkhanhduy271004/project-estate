@@ -1,11 +1,19 @@
 package com.javaweb.model.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class CustomerRequest {
 
   private Long id;
 
+  @NotBlank(message = "Tên khách hàng không được để trống")
   private String fullName;
+
+  @Email(message = "Email không đúng định dạng")
   private String email;
+
+  @NotBlank(message = "Số điện thoại không được để trống")
   private String phone;
   private String note;
   private Long staffId;

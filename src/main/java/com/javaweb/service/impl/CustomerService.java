@@ -1,5 +1,6 @@
 package com.javaweb.service.impl;
 
+import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.converter.customer.CustomerDTOConverter;
 import com.javaweb.converter.customer.CustomerEntityConverter;
 import com.javaweb.entity.CustomerEntity;
@@ -13,6 +14,7 @@ import com.javaweb.repository.UserRepository;
 import com.javaweb.service.ICustomerService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +34,13 @@ public class CustomerService implements ICustomerService {
   public void save(CustomerRequest customerRequest) {
     CustomerEntity customerEntity = customerEntityConverter.customerEntityConverter(
         customerRequest);
+    customerEntity.setIsActive(1L);
     customerRepository.save(customerEntity);
   }
 
   @Override
   public void save(CustomerEntity customerEntity) {
+    customerEntity.setIsActive(1L);
     customerRepository.save(customerEntity);
   }
 
@@ -82,16 +86,27 @@ public class CustomerService implements ICustomerService {
 
   @Override
   public void deleteCustomerById(Long id) {
-    customerRepository.deleteById(id);
+    CustomerEntity customer = customerRepository.findById(id).get();
+    customer.setIsActive(0L);
+    customerRepository.save(customer);
   }
 
   @Override
   public void delete(List<Long> ids) {
     try {
-      customerRepository.deleteByIdIn(ids);
+      for (Long id : ids) {
+        CustomerEntity customer = customerRepository.findById(id).get();
+        customer.setIsActive(0L);
+        customerRepository.save(customer);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println(e.getMessage());
     }
+  }
+
+  @Override
+  public Long countCustomers(CustomerRequest customerRequest) {
+    return customerRepository.count(customerRequest);
   }
 }

@@ -147,22 +147,25 @@
                                 </svg>
                             </button>
                         </a>
-                        <button class="btn btn-danger" title="Xóa khách hàng"
-                                onclick="deleteCustomers()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                 fill="currentColor" class="bi bi-person-fill-dash"
-                                 viewBox="0 0 16 16">
-                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                            </svg>
-                            <path
-                                    d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1"/>
-                            <path
-                                    d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
-                            <path
-                                    d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-                            </svg>
-                        </button>
+                        <security:authorize access="hasRole('MANAGER')">
+                            <button class="btn btn-danger" title="Xóa khách hàng"
+                                    onclick="deleteCustomers()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                     fill="currentColor" class="bi bi-person-fill-dash"
+                                     viewBox="0 0 16 16">
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                    <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                                </svg>
+                                <path
+                                        d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1"/>
+                                <path
+                                        d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
+                                <path
+                                        d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                                </svg>
+                            </button>
+                        </security:authorize>
+
                     </div>
                 </div>
                 <div class="col-xs-12">
@@ -176,13 +179,16 @@
                             <table id="simple-table"
                                    class="table table-striped table-bordered table-hover">
                                 <thead>
+
                                 <tr>
-                                    <th class="center">
-                                        <label class="pos-rel">
-                                            <input type="checkbox" class="ace" id="select-all">
-                                            <span class="lbl"></span>
-                                        </label>
-                                    </th>
+                                    <security:authorize access="hasRole('MANAGER')">
+                                        <th class="center">
+                                            <label class="pos-rel">
+                                                <input type="checkbox" class="ace" id="select-all">
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </th>
+                                    </security:authorize>
                                     <th>Tên khách hàng</th>
                                     <th>Số điện thoại</th>
                                     <th>Email</th>
@@ -194,82 +200,93 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="customer" items="${customers}">
-                                    <tr>
-                                        <td class="center">
-                                            <label class="pos-rel">
-                                                <input type="checkbox" class="ace select-checkbox"
-                                                       data-customer-id="${customer.id}">
-                                                <span class="lbl"></span>
-                                            </label>
-                                        </td>
-                                        <td>${customer.name}</td>
-                                        <td>${customer.customerPhone}</td>
-                                        <td>${customer.email}</td>
-                                        <td>${customer.demand}</td>
-                                        <td>${customer.createdBy}</td>
-                                        <td>${customer.createdDate}</td>
-                                        <td>${customer.status}</td>
-                                        <td>
-                                            <div class="hidden-sm hidden-xs btn-group">
-                                                <security:authorize
-                                                        access="hasRole('MANAGER')">
-                                                    <button class="btn btn-xs btn-success"
-                                                            title="Giao khách hàng"
-                                                            onclick="assignmentCustomer(${customer.id})">
-                                                        <i class="ace-icon glyphicon glyphicon-align-justify"></i>
-                                                    </button>
+                                <c:if test="${not empty customers}">
+                                    <c:forEach var="customer" items="${customers}">
+                                        <c:if test="${customer.isActive == 1}">
+                                            <tr>
+                                                <security:authorize access="hasRole('MANAGER')">
+                                                    <td class="center">
+                                                        <label class="pos-rel">
+                                                            <input type="checkbox"
+                                                                   class="ace select-checkbox"
+                                                                   data-customer-id="${customer.id}">
+                                                            <span class="lbl"></span>
+                                                        </label>
+                                                    </td>
                                                 </security:authorize>
-                                                <a class="btn btn-xs btn-info"
-                                                   href="/admin/customer-edit-${customer.id}">
-                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                                </a>
-                                                <security:authorize
-                                                        access="hasRole('MANAGER')">
-                                                          <button class="btn btn-xs btn-danger"
-                                                        onclick="deleteCustomer(${customer.id})">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                </button>
-                                                </security:authorize>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                                <td>${customer.name}</td>
+                                                <td>${customer.customerPhone}</td>
+                                                <td>${customer.email}</td>
+                                                <td>${customer.demand}</td>
+                                                <td>${customer.createdBy}</td>
+                                                <td>${customer.createdDate}</td>
+                                                <td>${customer.status}</td>
+                                                <td>
+                                                    <div class="hidden-sm hidden-xs btn-group">
+                                                        <security:authorize
+                                                                access="hasRole('MANAGER')">
+                                                            <button class="btn btn-xs btn-success"
+                                                                    title="Giao khách hàng"
+                                                                    onclick="assignmentCustomer(${customer.id})">
+                                                                <i class="ace-icon glyphicon glyphicon-align-justify"></i>
+                                                            </button>
+                                                        </security:authorize>
+                                                        <a class="btn btn-xs btn-info"
+                                                           href="/admin/customer-edit-${customer.id}">
+                                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                        </a>
+                                                        <security:authorize
+                                                                access="hasRole('MANAGER')">
+                                                            <button class="btn btn-xs btn-danger"
+                                                                    onclick="deleteCustomer(${customer.id})">
+                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                            </button>
+                                                        </security:authorize>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:if>
                                 </tbody>
                                 <input type="hidden" id="customerId" name="customerId" value="">
                             </table>
                         </div><!-- /.span -->
                     </div>
-                    <div class="row pull-right" style="margin-right: 0px">
-                        <nav aria-label="Pagination">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                    <a class="page-link"
-                                       href="${currentPage > 1 ? '?page=' + (currentPage - 1) : '#'}"
-                                       tabindex="${currentPage == 1 ? '-1' : ''}"
-                                       aria-disabled="${currentPage == 1}">
-                                        Trước
-                                    </a>
-                                </li>
-
-                                <c:forEach var="i" begin="1" end="${totalPages}">
-                                    <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                        <a class="page-link" href="?page=${i}">${i}</a>
+                    <div class="row" style="margin-right: 0px">
+                        <div class="col pull-left" style="margin-left: 14px">
+                            ${customers.size()} items found, displaying ${firstIndex}
+                            to ${lastIndex}.
+                        </div>
+                        <div class="col pull-right" style="margin: 0px">
+                            <nav aria-label="Pagination">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                        <a class="page-link"
+                                           href="?page=${currentPage - 1}"
+                                           tabindex="${currentPage == 1 ? '-1' : ''}"
+                                           aria-disabled="${currentPage == 1}">
+                                            <<
+                                        </a>
                                     </li>
-                                </c:forEach>
 
-                                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                    <a class="page-link"
-                                       href="${currentPage < totalPages ? '?page=' + (currentPage + 1) : '#'}"
-                                       aria-disabled="${currentPage == totalPages}">
-                                        Sau
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                            <a class="page-link" href="?page=${i}">${i}</a>
+                                        </li>
+                                    </c:forEach>
+
+                                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                        <a class="page-link"
+                                           href="?page=${currentPage + 1}"
+                                           aria-disabled="${currentPage == totalPages}">
+                                            >>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-
 
                 </div>
             </div>

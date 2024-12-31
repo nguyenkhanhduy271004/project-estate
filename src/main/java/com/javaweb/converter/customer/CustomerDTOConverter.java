@@ -22,6 +22,7 @@ public class CustomerDTOConverter {
     customerDTO.setCreatedBy(customer.getCreatedBy());
     customerDTO.setCreatedDate(customer.getCreatedDate());
     customerDTO.setStatus(customer.getStatus());
+    customerDTO.setIsActive(customer.getIsActive());
     return customerDTO;
   }
 }

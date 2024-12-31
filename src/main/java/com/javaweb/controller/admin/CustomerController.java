@@ -6,6 +6,7 @@ import com.javaweb.entity.TransactionEntity;
 import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.request.CustomerRequest;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.ICustomerService;
 import com.javaweb.service.ITransactionService;
 import com.javaweb.service.IUserService;
@@ -39,19 +40,24 @@ public class CustomerController {
   @GetMapping(value = "/customer-list")
   public ModelAndView customerList(@ModelAttribute CustomerRequest customerRequest,
       @RequestParam(value = "page", defaultValue = "1", required = false) int page,
-      @RequestParam(value = "size", defaultValue = "10", required = false) int size,
       HttpServletRequest request) {
+    int size = 2;
     ModelAndView mav = new ModelAndView("admin/customer/list");
-    List<CustomerDTO> customerEntities = customerService.findAll(customerRequest, page, size);
-    Long totalRecords = (long) customerEntities.size();
+    if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
+      Long staffId = SecurityUtils.getPrincipal().getId();
+      customerRequest.setStaffId(staffId);
+    }
+    List<CustomerDTO> customers = customerService.findAll(customerRequest, page, size);
+    Long totalRecords = customerService.countCustomers(customerRequest);
     int totalPages = (int) Math.ceil((double) totalRecords / size);
-
     mav.addObject("modalSearch", customerRequest);
     mav.addObject("staffs", userService.getStaffs());
-    mav.addObject("customers", customerEntities);
+    mav.addObject("customers", customers);
     mav.addObject("currentPage", page);
     mav.addObject("pageSize", size);
     mav.addObject("totalPages", totalPages);
+    mav.addObject("firstIndex", page + page - 1);
+    mav.addObject("lastIndex", page + page);
     return mav;
   }
 

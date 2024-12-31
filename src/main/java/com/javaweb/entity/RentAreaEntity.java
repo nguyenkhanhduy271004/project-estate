@@ -8,14 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "rentarea")
-public class RentAreaEntity {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@NoArgsConstructor
+@AllArgsConstructor
+public class RentAreaEntity extends BaseEntity {
 
   @Column(name = "value")
   private Long value;
@@ -23,29 +25,5 @@ public class RentAreaEntity {
   @ManyToOne()
   @JoinColumn(name = "buildingid")
   private BuildingEntity building;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public BuildingEntity getBuilding() {
-    return building;
-  }
-
-  public void setBuilding(BuildingEntity building) {
-    this.building = building;
-  }
-
-  public Long getValue() {
-    return value;
-  }
-
-  public void setValue(Long value) {
-    this.value = value;
-  }
-
+  
 }

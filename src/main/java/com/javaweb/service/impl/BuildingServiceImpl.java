@@ -71,16 +71,6 @@ public class BuildingServiceImpl implements IBuildingService {
   @Override
   public void create(BuildingRequestDTO buildingRequestDTO) {
     BuildingEntity buildingEntity = buildingEntityConverter.toBuildingEntity(buildingRequestDTO);
-    String filePath = "/uploads/buildings/";
-    String avatarFileName = buildingRequestDTO.getAvatar().getOriginalFilename();
-    try {
-      uploadFileUtils.writeOrUpdate(filePath + avatarFileName,
-          buildingRequestDTO.getAvatar().getBytes());
-    } catch (IOException e) {
-      e.printStackTrace();
-      System.out.println(e.getMessage());
-    }
-    buildingEntity.setAvatar(filePath + avatarFileName);
     buildingRepository.save(buildingEntity);
   }
 

@@ -250,7 +250,7 @@
                     </security:authorize>
                 </div>
             </div>
-            <div class="col-xs-12">
+            <div class="col-xs-12" style="margin-left: 8px">
                 <div class="row">
                     <div class="col-xs-12">
                         <h4>Danh sách tòa nhà</h4>
@@ -262,12 +262,14 @@
                                class="table table-striped table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th class="center">
-                                    <label class="pos-rel">
-                                        <input type="checkbox" class="ace" id="select-all">
-                                        <span class="lbl"></span>
-                                    </label>
-                                </th>
+                                <security:authorize access="hasRole('MANAGER')">
+                                    <th class="center">
+                                        <label class="pos-rel">
+                                            <input type="checkbox" class="ace" id="select-all">
+                                            <span class="lbl"></span>
+                                        </label>
+                                    </th>
+                                </security:authorize>
                                 <th>Tên tòa nhà</th>
                                 <th>Địa chỉ</th>
                                 <th>Sô tầng hầm</th>
@@ -283,13 +285,16 @@
                             <tbody>
                             <c:forEach var="item" items="${buildings}">
                                 <tr>
-                                    <td class="center">
-                                        <label class="pos-rel">
-                                            <input type="checkbox" class="ace select-checkbox"
-                                                   data-building-id="${item.id}">
-                                            <span class="lbl"></span>
-                                        </label>
-                                    </td>
+                                    <security:authorize
+                                            access="hasRole('MANAGER')">
+                                        <td class="center">
+                                            <label class="pos-rel">
+                                                <input type="checkbox" class="ace select-checkbox"
+                                                       data-building-id="${item.id}">
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </td>
+                                    </security:authorize>
                                     <td>${item.name}</td>
                                     <td>${item.address}</td>
                                     <td>${item.numberOfBasement}</td>
@@ -330,41 +335,43 @@
                         </table>
                     </div><!-- /.span -->
                 </div>
-                <div class="row pull-right" style="margin-right: 0px">
-                    <nav aria-label="Pagination">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                <a class="page-link"
-                                   href="${currentPage > 1 ? '?page=' + (currentPage - 1) : '#'}"
-                                   tabindex="${currentPage == 1 ? '-1' : ''}"
-                                   aria-disabled="${currentPage == 1}">
-                                    Trước
-                                </a>
-                            </li>
-
-                            <c:forEach var="i" begin="1" end="${totalPages}">
-                                <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                    <a class="page-link" href="?page=${i}">${i}</a>
+                <div class="row" style="margin-right: 0px">
+                    <div class="col pull-left" style="margin-left: 14px">
+                        ${buildings.size()} items found, displaying 1 to 2.
+                    </div>
+                    <div class="col pull-right" style="margin: 0px">
+                        <nav aria-label="Pagination">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                    <a class="page-link"
+                                       href="?page=${currentPage - 1}"
+                                       tabindex="${currentPage == 1 ? '-1' : ''}"
+                                       aria-disabled="${currentPage == 1}">
+                                        <<
+                                    </a>
                                 </li>
-                            </c:forEach>
 
-                            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                <a class="page-link"
-                                   href="${currentPage < totalPages ? '?page=' + (currentPage + 1) : '#'}"
-                                   aria-disabled="${currentPage == totalPages}">
-                                    Sau
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                                <c:forEach var="i" begin="1" end="${totalPages}">
+                                    <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                        <a class="page-link" href="?page=${i}">${i}</a>
+                                    </li>
+                                </c:forEach>
+
+                                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                    <a class="page-link"
+                                       href="?page=${currentPage + 1}"
+                                       aria-disabled="${currentPage == totalPages}">
+                                        >>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-
-
             </div>
-        </div>
 
-    </div><!-- /.page-content -->
-</div>
+        </div><!-- /.page-content -->
+    </div>
 </div><!-- /.main-content -->
 <div class="modal fade" id="assignmentBuildingModal" role="dialog"
      style="font-family: 'Times New Roman', Times, serif;">
@@ -401,6 +408,10 @@
     </div>
 </div>
 <script src="assets/js/jquery.2.1.1.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      rel="stylesheet">
 <script>
   function assignmentBuilding(buildingId) {
     $('#buildingId').val(buildingId);
@@ -452,12 +463,13 @@
       url: '${buildingAPI}/assignment',
       data: JSON.stringify(data),
       contentType: 'application/json',
-      dataType: 'json',
       success: function (response) {
-        window.location.href = "<c:url value="/admin/building-list"/>";
+        toastr.success('Giao building thành công', 'Thành công');
+        $('#assignmentBuildingModal').modal('hide');
       },
       error: function (response) {
-        window.location.href = "<c:url value="/admin/building-list"/>";
+        toastr.error('Có lỗi xảy ra khi giao building', 'Thất bại');
+        $('#assignmentBuildingModal').modal('show');
       }
     });
   }
@@ -467,11 +479,14 @@
       type: 'DELETE',
       url: '${buildingAPI}/' + buildingId,
       contentType: 'application/json',
-      dataType: 'json',
       success: function (response) {
-        window.location.href = "<c:url value="/admin/building-list"/>";
+        toastr.success('Xóa building thành công', 'Thành công');
+         setTimeout(() => {
+          window.location.href = "/admin/building-list";
+        }, 2000);
       },
       error: function (response) {
+        toastr.error('Có lỗi xảy ra khi xóa building', 'Thất bại');
         window.location.href = "<c:url value="/admin/building-list"/>";
       }
     });

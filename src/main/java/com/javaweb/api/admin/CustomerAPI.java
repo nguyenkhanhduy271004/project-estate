@@ -11,22 +11,20 @@ import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.ICustomerService;
 import com.javaweb.service.ITransactionService;
 import com.javaweb.service.IUserService;
-import com.javaweb.service.impl.CustomerService;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController(value = "customerAPIOfAdmin")
 @RequestMapping("/api/customer")
+@Validated
 public class CustomerAPI {
 
   @Autowired
@@ -39,59 +37,70 @@ public class CustomerAPI {
   private IUserService userService;
 
   @PostMapping
-  public void addOrUpdateCustomer(@RequestBody CustomerRequest customerRequest) {
+  public ResponseEntity<String> addOrUpdateCustomer(
+      @Valid @RequestBody CustomerRequest customerRequest) {
     customerService.save(customerRequest);
+    return ResponseEntity.status(HttpStatus.CREATED).body("Customer saved successfully.");
   }
 
   @GetMapping("/{id}/staffs")
-  public ResponseDTO loadStaffs(@PathVariable Long id) {
+  public ResponseEntity<ResponseDTO> loadStaffs(@PathVariable Long id) {
     ResponseDTO result = customerService.listStaffs(id);
-    return result;
+    return ResponseEntity.ok(result);
   }
 
   @PostMapping(value = "/assignment")
-  public void assignmentCustomerForStaffs(
+  public ResponseEntity<String> assignmentCustomerForStaffs(
       @RequestBody AssignmentCustomerRequest assignmentCustomerRequest) {
     CustomerEntity customer = customerService.findCustomerById(
         assignmentCustomerRequest.getCustomerId());
-    List<UserEntity> staffs = new ArrayList<>();
-    for (Long staffId : assignmentCustomerRequest.getStaffs()) {
-      UserEntity userEntity = userService.findById(staffId);
-      staffs.add(userEntity);
-    }
+    List<UserEntity> staffs = assignmentCustomerRequest.getStaffs().stream()
+        .map(userService::findById)
+        .collect(Collectors.toList());
     customer.setUserEntityList(staffs);
     customerService.save(customer);
+    return ResponseEntity.ok("Customer assigned to staffs successfully.");
   }
 
-
   @PostMapping(value = "/transaction")
-  public void createTransaction(@RequestBody TransactionRequest transactionRequest) {
+  public ResponseEntity<String> createTransaction(
+      @RequestBody TransactionRequest transactionRequest) {
     if (transactionRequest.getId() != null) {
       TransactionEntity transaction = transactionService.findById(transactionRequest.getId());
       transaction.setNote(transactionRequest.getNote());
       transactionService.save(transaction);
+      return ResponseEntity.ok("Transaction updated successfully.");
     } else {
       TransactionEntity transactionEntity = transactionEntityConverter.toTransactionEntity(
           transactionRequest);
       transactionService.save(transactionEntity);
+      return ResponseEntity.status(HttpStatus.CREATED).body("Transaction created successfully.");
     }
   }
 
   @PutMapping()
-  public void updateCustomer(@RequestBody CustomerRequest customerRequest) {
+  public ResponseEntity<String> updateCustomer(@RequestBody CustomerRequest customerRequest) {
     CustomerEntity customer = customerService.findCustomerById(customerRequest.getId());
     customer.setStatus(customerRequest.getStatus());
     customerService.save(customer);
+    return ResponseEntity.ok("Customer updated successfully.");
   }
 
-
   @DeleteMapping("/{id}")
-  public void deleteCustomer(@PathVariable Long id) {
+  public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
     customerService.deleteCustomerById(id);
+    return ResponseEntity.ok("Customer deleted successfully.");
   }
 
   @DeleteMapping("/delete-{ids}")
-  public void deleteCustomers(@PathVariable List<Long> ids) {
+  public ResponseEntity<String> deleteCustomers(@PathVariable List<Long> ids) {
     customerService.delete(ids);
+    return ResponseEntity.ok("Customers deleted successfully.");
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> handleException(Exception ex) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body("Error: " + ex.getMessage());
   }
 }

@@ -5,9 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "transaction")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionEntity extends BaseEntity {
 
   @Column(name = "code")
@@ -23,36 +29,5 @@ public class TransactionEntity extends BaseEntity {
   @ManyToOne()
   @JoinColumn(name = "staffid")
   private UserEntity user;
-
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getNote() {
-    return note;
-  }
-
-  public void setNote(String note) {
-    this.note = note;
-  }
-
-  public CustomerEntity getCustomer() {
-    return customer;
-  }
-
-  public void setCustomer(CustomerEntity customer) {
-    this.customer = customer;
-  }
-
-  public UserEntity getUser() {
-    return user;
-  }
-
-  public void setUser(UserEntity user) {
-    this.user = user;
-  }
+  
 }

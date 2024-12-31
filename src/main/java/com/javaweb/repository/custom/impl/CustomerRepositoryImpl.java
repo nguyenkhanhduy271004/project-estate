@@ -1,5 +1,6 @@
 package com.javaweb.repository.custom.impl;
 
+import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.model.request.CustomerRequest;
 import com.javaweb.repository.custom.CustomerRepositoryCustom;
@@ -50,7 +51,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
   public List<CustomerEntity> findAll(CustomerRequest customerRequest, int page, int size) {
     StringBuilder sql = new StringBuilder("SELECT c.* FROM customer c");
     joinTable(customerRequest, sql);
-    StringBuilder where = new StringBuilder(" WHERE 1=1");
+    StringBuilder where = new StringBuilder(" WHERE 1=1 AND c.is_active = 1");
     queryNormal(customerRequest, where);
     where.append(" GROUP BY c.id");
     sql.append(where);
@@ -59,4 +60,16 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     Query query = entityManager.createNativeQuery(sql.toString(), CustomerEntity.class);
     return query.getResultList();
   }
+
+  @Override
+  public Long count(CustomerRequest customerRequest) {
+    StringBuilder sql = new StringBuilder("SELECT COUNT(DISTINCT c.id) FROM customer c ");
+    joinTable(customerRequest, sql);
+    StringBuilder where = new StringBuilder(" WHERE 1=1 AND c.is_active = 1");
+    queryNormal(customerRequest, where);
+    sql.append(where);
+    Query query = entityManager.createNativeQuery(sql.toString());
+    return ((Number) query.getSingleResult()).longValue();
+  }
+
 }

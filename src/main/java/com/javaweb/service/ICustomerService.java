@@ -23,5 +23,7 @@ public interface ICustomerService {
 
   void delete(List<Long> ids);
 
+  public Long countCustomers(CustomerRequest customerRequest);
+
 
 }

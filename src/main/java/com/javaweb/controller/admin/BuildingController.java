@@ -38,10 +38,10 @@ public class BuildingController {
       @RequestParam Map<String, Object> params,
       @RequestParam(value = "typeCode", required = false) List<String> typeCode,
       @RequestParam(value = "page", defaultValue = "1", required = false) int page,
-      @RequestParam(value = "size", defaultValue = "10", required = false) int size,
       HttpServletRequest request) {
     ModelAndView mav = new ModelAndView("admin/building/list");
 
+    int size = 2;
     if (SecurityUtils.getAuthorities().contains("ROLE_STAFF")) {
       Long staffId = SecurityUtils.getPrincipal().getId();
       buildingSearchRequest.setStaffId(staffId);
@@ -90,7 +90,6 @@ public class BuildingController {
   @RequestMapping(value = "/admin/building-delete-{id}", method = RequestMethod.DELETE)
   public void deleteBuilding(@PathVariable Long id) {
     buildingService.delete(id);
-    System.out.println("ok");
   }
 
 

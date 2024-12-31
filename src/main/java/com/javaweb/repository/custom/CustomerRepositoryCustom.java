@@ -10,4 +10,5 @@ public interface CustomerRepositoryCustom {
 
   List<CustomerEntity> findAll(CustomerRequest customerRequest, int page, int size);
 
+  public Long count(CustomerRequest customerRequest);
 }

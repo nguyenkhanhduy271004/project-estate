@@ -97,6 +97,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <security:authorize access="hasRole('MANAGER')">
                                 <div class="table-btn-controls">
                                     <div class="pull-right tableTools-container">
                                         <div class="dt-buttons btn-overlap btn-group">
@@ -122,6 +123,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </security:authorize>
+
                             </div>
                         </div>
                         <div class="row">
@@ -137,17 +140,19 @@
                                                    export="false"
                                                    class="table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer"
                                                    style="margin: 3em 0 1.5em;">
-                                        <display:column title="<fieldset class=''>
+                                        <security:authorize access="hasRole('MANAGER')">
+                                            <display:column title="<fieldset class=''>
 												        <input type='checkbox' id='checkAll' class='check-box-element'>
 												        </fieldset>" class="center select-cell"
-                                                        headerClass="center select-cell">
-                                            <fieldset>
-                                                <input type="checkbox" name="checkList"
-                                                       value="${tableList.id}"
-                                                       id="checkbox_${tableList.id}"
-                                                       class="check-box-element"/>
-                                            </fieldset>
-                                        </display:column>
+                                                            headerClass="center select-cell">
+                                                <fieldset>
+                                                    <input type="checkbox" name="checkList"
+                                                           value="${tableList.id}"
+                                                           id="checkbox_${tableList.id}"
+                                                           class="check-box-element"/>
+                                                </fieldset>
+                                            </display:column>
+                                        </security:authorize>
                                         <display:column headerClass="text-left" property="userName"
                                                         title="Tên"/>
                                         <display:column headerClass="text-left" property="fullName"
